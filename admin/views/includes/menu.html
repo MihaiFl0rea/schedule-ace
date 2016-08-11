@@ -1,0 +1,99 @@
+<div class="full-left">
+    <label for="toggle">Fullscreen</label>
+    <section class="full-top">
+        <button id="toggle"><i class="fa fa-arrows-alt"></i></button>
+    </section>
+
+    <div class="clearfix"></div>
+</div>
+
+<!-- Brand and toggle get grouped for better mobile display -->
+
+<!-- Collect the nav links, forms, and other content for toggling -->
+<div class="drop-men">
+    <ul class=" nav_1">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle dropdown-at" data-toggle="dropdown">
+                <span class=" name-caret">Admin<i class="caret"></i></span>
+                <img src="{{ url }}images/owl.jpg">
+            </a>
+            <ul class="dropdown-menu " role="menu">
+                <li><a href="#" id="adminLogout"><i class="fa fa-bell-slash"></i>Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<!-- /.navbar-collapse -->
+<div class="clearfix"></div>
+
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+
+            <li>
+                <a href="index.php?m=groups&case=groups" class=" hvr-bounce-to-right">
+                    <i class="fa fa-clone nav_icon "></i>
+                    <span class="nav-label">Specializari</span>
+                    <span class="badge">{{ statistics.groups }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="index.php?m=halls&case=halls" class=" hvr-bounce-to-right">
+                    <i class="fa fa-university nav_icon"></i>
+                    <span class="nav-label">Sali de curs</span>
+                    <span class="badge">{{ statistics.halls }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="index.php?m=classes&case=classes" class=" hvr-bounce-to-right">
+                    <i class="fa fa-book nav_icon"></i>
+                    <span class="nav-label">Materii</span>
+                    <span class="badge">{{ statistics.classes }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="index.php?m=groupClasses&case=groupClasses" class=" hvr-bounce-to-right">
+                    <i class="fa fa-sort nav_icon "></i>
+                    <span class="nav-label">Materii / subgrupe</span>
+                    <span class="badge">{{ statistics.class_groups }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="index.php?m=teachers&case=teachers" class=" hvr-bounce-to-right">
+                    <i class="fa fa-users nav_icon"></i>
+                    <span class="nav-label">Profesori</span>
+                    <span class="badge">{{ statistics.teachers }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="index.php?m=exceptions&case=exceptions" class=" hvr-bounce-to-right">
+                    <i class="fa fa-user-plus nav_icon"></i>
+                    <span class="nav-label">Exceptii profesori</span>
+                    <span class="badge">{{ statistics.teacher_exceptions }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="index.php?m=groupExceptions&case=groupExceptions" class=" hvr-bounce-to-right">
+                    <i class="fa fa-user-times nav_icon"></i>
+                    <span class="nav-label">Exceptii subgrupe</span>
+                    <span class="badge">{{ statistics.groups_exceptions }}</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="index.php?m=schedule&case=activeGroups" class=" hvr-bounce-to-right">
+                    <i class="fa fa-map-o nav_icon"></i>
+                    <span class="nav-label">Orar</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</div>

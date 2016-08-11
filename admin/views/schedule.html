@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ name }}</title>
+    {% include 'includes/head.html' %}
+</head>
+<body>
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-top" role="navigation">
+
+        {% include 'includes/header.html' %}
+
+        <div class=" border-bottom">
+
+            {% include 'includes/menu.html' %}
+
+            <div id="page-wrapper" class="gray-bg dashbard-1">
+                <div class="content-main">
+
+                    <!--banner-->
+                    <div class="banner">
+                        <h2>
+                            <a href="index.php?m=home">Acasa</a>
+                            <i class="fa fa-angle-right"></i>
+
+                            {% if case == 'activeGroups' %}
+                            <span>Orar - Grupe eligibile</span>
+                            {% endif %}
+
+                            {% if case == 'display' %}
+                            <a href="index.php?m=schedule&case=activeGroups">Orar</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>{{ groupId }} | Semestrul {{ semester }}</span>
+                            {% endif %}
+
+                        </h2>
+                    </div>
+                    <!--//banner-->
+
+                    <!--Page Content-->
+                    <div class="blank">
+
+                        <div class="blank-page">
+
+                            {% if case == 'activeGroups' %}
+
+                            <h3 class="head-top">Grupe eligibile</h3>
+
+                            <p>(grupe ce au materii alocate in sectiunea <strong>Materii / subgrupe</strong>)</p>
+
+                            {% for activeSubgroup in activeSubgroups %}
+                                <div class="alert alert-success" role="alert">
+                                    <strong>{{ activeSubgroup.group }}, {{ activeSubgroup.subgroup }}</strong> | Click pe semestru pentru a vedea / genera orarul => <a href="index.php?m=schedule&case=display&group={{ activeSubgroup.subgroup }}&sem=1">Semestrul 1</a> | <a href="index.php?m=schedule&case=display&group={{ activeSubgroup.subgroup }}&sem=2">Semestrul 2</a>
+                                </div>
+                            {% endfor %}
+
+                            {% endif %}
+
+                            {% if case == 'display' %}
+
+                                {% if scheduleExistence == 'false' %}
+                            <div class="align-center">
+                                <h3 class="head-top  top-50">Orar inexistent!</h3>
+                                <p> - Fie nu a fost inca generat pentru aceasta grupa <br/> - Fie au fost introduse intervale restrictionate de timp, de catre profesori sau pentru studenti</p>
+                                <form method="post">
+                                    <input type="hidden" value="{{ groupId }}" name="subgroup" />
+                                    <input type="hidden" value="{{ semester }}" name="semester" />
+                                    <button type="submit" name="generateSchedule" class="btn btn-primary warning_33">Genereaza orar!</button>
+                                </form>
+                            </div>
+
+                                {% else %}
+
+                            <h2 class="head-top align-center bot-15 blue-h2">Semestrul {{ semester }} | {{ groupId }}</h2>
+
+                            {% for schedule in scheduleOutput %}
+                            <h3 class="schedule-header">{{ schedule.subgrupa }}</h3>
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <th class="blue-h2">Luni</th>
+                                    <th class="blue-h2">Marti</th>
+                                    <th class="blue-h2">Miercuri</th>
+                                    <th class="blue-h2">Joi</th>
+                                    <th class="blue-h2">Vineri</th>
+                                </tr>
+                                {% for class in schedule.materii %}
+                                <tr>
+                                    <td>{% if class.luni %} {{ class.luni|raw }} {% else %} - {% endif %}</td>
+                                    <td>{% if class.marti %} {{ class.marti|raw }} {% else %} - {% endif %}</td>
+                                    <td>{% if class.miercuri %} {{ class.miercuri|raw }} {% else %} - {% endif %}</td>
+                                    <td>{% if class.joi %} {{ class.joi|raw }} {% else %} - {% endif %}</td>
+                                    <td>{% if class.vineri %} {{ class.vineri|raw }} {% else %} - {% endif %}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                            {% endfor %}
+
+                                {% endif %}
+
+                            {% endif %}
+
+                            {% if case == 'add_hall' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="hallName">Nume</label>
+                                        <input type="text" class="form-control" id="hallName" name="hallName" placeholder="Nume sala de curs" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hallLocation">Locatie</label>
+                                        <input type="text" class="form-control" id="hallLocation" name="hallLocation" placeholder="Locatie" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hallFacilities">Tip sala</label>
+                                        <select class="form-control" id="hallFacilities" name="hallFacilities" required>
+                                            <option value="" disabled="disabled" selected="selected">Alege</option>
+                                            <option value="1">Sala normala</option>
+                                            <option value="2">Sala cu videoproiector</option>
+                                            <option value="3">Sala cu calculatoare</option>
+                                            <option value="4">Aula</option>
+                                            <option value="5">Sala dedicata</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" name="addHall" class="btn btn-default">Adauga</button>
+                                </form>
+                            </div>
+
+                            {% endif %}
+
+                            {% if case == 'edit_hall' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="hallName">Nume</label>
+                                        <input type="text" class="form-control" id="hallName" name="hallName" placeholder="Nume sala de curs" value="{{ hallDetails.nume }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hallLocation">Nume</label>
+                                        <input type="text" class="form-control" id="hallLocation" name="hallLocation" placeholder="Locatie" value="{{ hallDetails.locatie }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hallFacilities">Prioritate</label>
+                                        <select class="form-control" id="hallFacilities" name="hallFacilities">
+                                            <option value="1" {% if hallDetails.facilitati == '1' %} selected="selected" {% endif %}>Sala normala</option>
+                                            <option value="2" {% if hallDetails.facilitati == '2' %} selected="selected" {% endif %}>Sala cu videoproiector</option>
+                                            <option value="3" {% if hallDetails.facilitati == '3' %} selected="selected" {% endif %}>Sala cu calculatoare</option>
+                                            <option value="4" {% if hallDetails.facilitati == '4' %} selected="selected" {% endif %}>Aula</option>
+                                            <option value="5" {% if hallDetails.facilitati == '5' %} selected="selected" {% endif %}>Sala dedicata</option>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="hallId" value="{{ hallDetails.id_sala_curs }}" />
+                                    <button type="submit" name="editHall" class="btn btn-default">Editeaza</button>
+                                </form>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                    <!--//Page Content-->
+
+                    <!---->
+                    <div class="copy">
+                        <p> &copy; Facultatea de Automatica, Calculatoare si Electronica, {{ year }}</p>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </nav>
+
+    {% include 'includes/footer.html' %}
+
+</div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>{{ name }}</title>
+        {% include 'includes/head.html' %}
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+            <div class="container topnav">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand topnav" href="#">{{ teacherName }} | <span id="teacherLogout">Log out</span></a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#schedule">Orar</a>
+                        </li>
+                        <li>
+                            <a href="#exceptions">Exceptii</a>
+                        </li>
+                        <li>
+                            <a href="#contact">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+
+        <!-- Header -->
+        <div class="intro-header">
+            <div class="container">
+
+                <div class="row bkg-logo">
+                    <div class="col-lg-12">
+                        <div class="intro-message">
+                            <h1>Orar ACE</h1>
+                            <h3>Afisare si observatii</h3>
+                            <hr class="intro-divider">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container -->
+
+        </div>
+        <!-- /.intro-header -->
+
+        <!-- Page Content -->
+
+        <a name="schedule"></a>
+        <div class="content-section-a">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-sm-6">
+                        <hr class="section-heading-spacer">
+                        <div class="clearfix"></div>
+                        <h2 class="section-heading">Orarul dumneavoastra</h2>
+                        <table class="table">
+
+                            <tr>
+                                <th>Ziua</th>
+                                <th>Ora</th>
+                                <th>Materie</th>
+                                <th>Specializare</th>
+                                <th>Sala</th>
+                            </tr>
+
+                            {% for class in schedule %}
+
+                            <tr>
+                                <td>{{ class.ziua }}</td>
+                                <td>{{ class.ora }}</td>
+                                <td>{{ class.numeMaterie }} ({{ class.tip_materie }})</td>
+                                <td>{{ class.grupa }}</td>
+                                <td>{{ class.numeSala }}</td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container -->
+
+        </div>
+        <!-- /.content-section-a -->
+
+        <a name="exceptions"></a>
+        <div class="content-section-b">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                        <hr class="section-heading-spacer">
+                        <div class="clearfix"></div>
+                        <h2 class="section-heading">Obiectii legate de alocarea orelor dumneavoastra?</h2>
+                        <p class="lead">Adaugati o exceptie care sa cuprinda ziua si intervalul orar in care nu sunteti disponibil.</p>
+                    </div>
+                    <div class="col-lg-5 col-sm-pull-6 col-sm-6">
+                        {% if exceptions != '' %}
+                        <h4>Exceptie/i:</h4>
+                            {% for exception in exceptions %}
+                            <p id="displayException{{ exception.id_profesor_exceptie }}"><span>{{ exception.zi }} | {{ exception.ora }} </span> <button class="btn btn-info btn-xs edit-form-display" id="{{ exception.id_profesor_exceptie }}">Editeaza</button> / <button class="btn btn-danger btn-xs delete-exception" id="{{ exception.id_profesor_exceptie }}">Sterge</button></p>
+                            <form id="editExceptionForm{{ exception.id_profesor_exceptie }}" class="hidden">
+                                <div class="form-group">
+                                    <label for="exceptionDay{{ exception.id_profesor_exceptie }}">Zi</label>
+                                    <select class="form-control" id="exceptionDay{{ exception.id_profesor_exceptie }}" name="exceptionDay">
+                                        <option value="1" {% if exception.zi == 'Luni' %} selected="selected" {% endif %}>Luni</option>
+                                        <option value="2" {% if exception.zi == 'Marti' %} selected="selected" {% endif %}>Marti</option>
+                                        <option value="3" {% if exception.zi == 'Miercuri' %} selected="selected" {% endif %}>Miercuri</option>
+                                        <option value="4" {% if exception.zi == 'Joi' %} selected="selected" {% endif %}>Joi</option>
+                                        <option value="5" {% if exception.zi == 'Vineri' %} selected="selected" {% endif %}>Vineri</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="startException{{ exception.id_profesor_exceptie }}">Intre</label>
+                                    <input type="text" class="form-control start-exception" id="startException{{ exception.id_profesor_exceptie }}" rel="{{ exception.id_profesor_exceptie }}" value="{{ exception.startException }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="endException{{ exception.id_profesor_exceptie }}">si</label>
+                                    <input type="text" class="form-control end-exception" id="endException{{ exception.id_profesor_exceptie }}" rel="{{ exception.id_profesor_exceptie }}" value="{{ exception.endException }}" />
+                                </div>
+                                <button type="submit" id="{{ exception.id_profesor_exceptie }}" class="edit-exception btn btn-default">Editeaza</button>
+                                <button type="button" class="btn btn-default cancel-exception" id="{{ exception.id_profesor_exceptie }}">Cancel</button>
+                            </form>
+                            {% endfor %}
+                        <hr class="exceptions-line"/>
+                        {% endif %}
+
+                        <h4 id="addExceptionArea">Adauga exceptie(<span style="color: red;">*</span>) <i class="fa fa-level-down" id="showExceptionForm" aria-hidden="true"></i><i class="fa fa-level-up hidden" id="hideExceptionForm" aria-hidden="true"></i></h4>
+                        <form id="addExceptionForm" class="hidden">
+                            <div class="form-group">
+                                <label for="exceptionDay">Zi</label>
+                                <select class="form-control" id="exceptionDay" name="exceptionDay" required>
+                                    <option value="" disabled="disabled" selected="selected">Alege</option>
+                                    <option value="1">Luni</option>
+                                    <option value="2">Marti</option>
+                                    <option value="3">Miercuri</option>
+                                    <option value="4">Joi</option>
+                                    <option value="5">Vineri</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="startException">Intre</label>
+                                <input type="text" class="form-control" id="startException" name="startException" placeholder="Ora de inceput" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="endException">si</label>
+                                <input type="text" class="form-control" id="endException" name="endException" placeholder="Ora de sfarsit" required>
+                            </div>
+                            <input type="hidden" id="teacherId" rel="{{ teacherId }}" />
+                            <button type="submit" id="addException" class="btn btn-default">Adauga</button>
+                        </form>
+                        <p><span style="color:red;">Nota *</span> - Cursurile nu pot fi mutate iar in rest este permisa doar o exceptie pe zi!</p>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container -->
+
+        </div>
+        <!-- /.content-section-b -->
+
+        <a name="contact"></a>
+        <div class="content-section-a">
+
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-lg-5 col-sm-6">
+                        <hr class="section-heading-spacer">
+                        <div class="clearfix"></div>
+                        <h2 class="section-heading">Intrebari / sugestii legate de aceasta aplicatie?</h2>
+                        <p class="lead">Trimiteti un mesaj administratorului acestei aplicatii.</p>
+                    </div>
+                    <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                        <h4>Trimite mesaj</h4>
+                        <form>
+                            <div class="form-group">
+                                <label for="messageSubject">Subiect</label>
+                                <input type="text" class="form-control" id="messageSubject" placeholder="Subiectul acestui mesaj">
+                            </div>
+                            <div class="form-group">
+                                <label for="messageTeacher">Mesaj</label>
+                                <textarea id="messageTeacher" class="form-control" rows="5" required placeholder="Mesajul dumneavoastra"></textarea>
+                            </div>
+                            <p id="afterMessage"></p>
+                            <input type="hidden" id="teacherName" value="{{ teacherName }}" />
+                            <button type="submit" id="sendMessage" class="btn btn-default">Trimite</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.container -->
+
+        </div>
+        <!-- /.content-section-a -->
+
+        <!-- /.banner -->
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p class="copyright text-muted small">&copy; Facultatea de Automatica, Calculatoare si Electronica, {{ year }}</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        {% include 'includes/footer.html' %}
+
+    </body>
+
+</html>

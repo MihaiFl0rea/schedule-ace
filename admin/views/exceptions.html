@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ name }}</title>
+    {% include 'includes/head.html' %}
+</head>
+<body>
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-top" role="navigation">
+
+        {% include 'includes/header.html' %}
+
+        <div class=" border-bottom">
+
+            {% include 'includes/menu.html' %}
+
+            <div id="page-wrapper" class="gray-bg dashbard-1">
+                <div class="content-main">
+
+                    <!--banner-->
+                    <div class="banner">
+                        <h2>
+                            <a href="index.php?m=home">Acasa</a>
+                            <i class="fa fa-angle-right"></i>
+
+                            {% if case == 'exceptions' %}
+                            <span>Exceptii profesori</span>
+                            {% endif %}
+
+                            {% if case == 'edit_exception' %}
+                            <a href="index.php?m=exceptions&case=exceptions">Exceptii profesori</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>{{ exceptionDetails.nume }} | Editeaza exceptie</span>
+                            {% endif %}
+
+                        </h2>
+                    </div>
+                    <!--//banner-->
+
+                    <!--Page Content-->
+                    <div class="blank">
+
+                        <div class="blank-page">
+
+                            {% if case == 'exceptions' %}
+                            <!--<p class="p-indent">
+                                <a href="index.php?m=exceptions&case=add_exception" class="rmv-decoration">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <button type="button" class="btn btn-xs btn-success">Adauga exceptie</button>
+                                </a>
+                            </p>-->
+                            <table class="table table-striped table-bordered">
+                                <tr><th>Profesor</th><th>Zi</th><th>Interval orar</th><th>Status</th><th>Optiuni</th></tr>
+                                {% if exceptions.result %}
+                                {% for exception in exceptions.result %}
+                                <tr id="showException{{ exception.id_profesor_exceptie }}">
+                                    <td>{{ exception.nume }}</td>
+                                    <td>{{ exception.zi }}</td>
+                                    <td>{{ exception.ora }}</td>
+                                    <td>{{ exception.status|raw }}</td>
+                                    <td>
+                                        <a href="index.php?m=exceptions&case=edit_exception&id={{ exception.id_profesor_exceptie }}" class="rmv-decoration">
+                                            <button type="button" class="btn btn-sm btn-info">Edit</button>
+                                        </a> | <button type="button" class="btn btn-sm btn-warning delete-exception" id="{{ exception.id_profesor_exceptie}}">Delete</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                <tr><td colspan="5">Exceptii inexistente!</td></tr>
+                                {% endif %}
+
+                            </table>
+
+                            <nav>
+                                <ul class="pagination">
+                                    {% if exceptions.pageDetails.hasPreviousPage == true %}
+                                    <li><a href="index.php?m=exceptions&case=exceptions&p={{ exceptions.pageDetails.previousPage }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    {% endif %}
+
+                                    {% if exceptions.pageDetails.twoBack == true %}
+                                    <li><a href="index.php?m=exceptions&case=exceptions&p={{ exceptions.pageDetails.currentPage - 2 }}">{{ exceptions.pageDetails.currentPage - 2 }}</a></li>
+                                    <li><a href="index.php?m=exceptions&case=exceptions&p={{ exceptions.pageDetails.currentPage - 1 }}">{{ exceptions.pageDetails.currentPage - 1 }}</a></li>
+                                    {% elseif exceptions.pageDetails.oneBack == true %}
+                                    <li><a href="index.php?m=exceptions&case=exceptions&p={{ exceptions.pageDetails.currentPage - 1 }}">{{ exceptions.pageDetails.currentPage - 1 }}</a></li>
+                                    {% endif %}
+
+                                    <li class="active"><a href="#">{{ exceptions.pageDetails.currentPage }}</a></li>
+
+                                    {% if exceptions.pageDetails.twoAhead == true %}
+                                    <li><a href="index.php?m=exceptions&case=exceptions&p={{ exceptions.pageDetails.currentPage + 1 }}">{{ exceptions.pageDetails.currentPage + 1 }}</a></li>
+                                    <li><a href="index.php?m=exceptions&case=exceptions&p={{ exceptions.pageDetails.currentPage + 2 }}">{{ exceptions.pageDetails.currentPage + 2 }}</a></li>
+                                    {% elseif exceptions.pageDetails.oneAhead == true %}
+                                    <li><a href="index.php?m=exceptions&case=exceptions&p={{ exceptions.pageDetails.currentPage + 1 }}">{{ exceptions.pageDetails.currentPage + 1 }}</a></li>
+                                    {% endif %}
+
+                                    {% if exceptions.pageDetails.hasNextPage == true %}
+                                    <li><a href="index.php?m=exceptions&case=exceptions&p={{ exceptions.pageDetails.nextPage }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+
+
+                            {% endif %}
+
+                            <!--{% if case == 'add_exception' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="exceptionDay">Zi</label>
+                                        <select class="form-control" id="exceptionDay" name="exceptionDay" required>
+                                            <option value="" disabled="disabled" selected="selected">Alege</option>
+                                            <option value="1">Luni</option>
+                                            <option value="2">Marti</option>
+                                            <option value="3">Miercuri</option>
+                                            <option value="4">Joi</option>
+                                            <option value="5">Vineri</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="startException">Intre</label>
+                                        <input type="text" class="form-control" id="startException" name="startException" placeholder="Ora de inceput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="endException">si</label>
+                                        <input type="text" class="form-control" id="endException" name="endException" placeholder="Ora de sfarsit" required>
+                                    </div>
+                                    <button type="submit" name="addException" class="btn btn-default">Adauga</button>
+                                </form>
+                            </div>
+
+                            {% endif %}-->
+
+                            {% if case == 'edit_exception' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="exceptionDay">Zi</label>
+                                        <select class="form-control" id="exceptionDay" name="exceptionDay" required>
+                                            <option value="" disabled="disabled" selected="selected">Alege</option>
+                                            <option value="1" {% if exceptionDetails.zi == 1 %} selected="selected" {% endif %}>Luni</option>
+                                            <option value="2" {% if exceptionDetails.zi == 2 %} selected="selected" {% endif %}>Marti</option>
+                                            <option value="3" {% if exceptionDetails.zi == 3 %} selected="selected" {% endif %}>Miercuri</option>
+                                            <option value="4" {% if exceptionDetails.zi == 4 %} selected="selected" {% endif %}>Joi</option>
+                                            <option value="5" {% if exceptionDetails.zi == 5 %} selected="selected" {% endif %}>Vineri</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="startException">Intre</label>
+                                        <input type="text" class="form-control" id="startException" name="startException" value="{{ exceptionDetails.startException }}" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="endException">si</label>
+                                        <input type="text" class="form-control" id="endException" name="endException" value="{{ exceptionDetails.endException }}" />
+                                    </div>
+                                    <input type="hidden" name="exceptionId" value="{{ exceptionDetails.id_profesor_exceptie }}" />
+                                    <button type="submit" name="editException" class="btn btn-default">Editeaza</button>
+                                </form>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                    <!--//Page Content-->
+
+                    <!---->
+                    <div class="copy">
+                        <p> &copy; Facultatea de Automatica, Calculatoare si Electronica, {{ year }}</p>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </nav>
+
+    {% include 'includes/footer.html' %}
+
+</div>
+</body>
+</html>

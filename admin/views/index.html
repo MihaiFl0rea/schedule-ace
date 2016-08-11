@@ -1,0 +1,168 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{{ name }}</title>
+        {% include 'includes/head.html' %}
+    </head>
+    <body>
+        <div id="wrapper">
+
+            <!----->
+            <nav class="navbar-default navbar-static-top" role="navigation">
+
+                {% include 'includes/header.html' %}
+
+                <div class=" border-bottom">
+
+                    {% include 'includes/menu.html' %}
+
+                    <div id="page-wrapper" class="gray-bg dashbard-1">
+                        <div class="content-main">
+
+                            <!--banner-->
+                            <div class="banner">
+                                <h2>
+                                    <span>Acasa | ACE</span>
+                                </h2>
+                            </div>
+                            <!--//banner-->
+                            <div class="blank">
+
+                                <div class="blank-page">
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="panel panel-green">
+                                                <a href="index.php?m=groups&case=groups">
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+                                                            <div class="col-xs-3">
+                                                                <i class="fa fa-clone fa-5x"></i>
+                                                            </div>
+                                                            <div class="col-xs-9 text-right">
+                                                                <div class="huge">{{ statistics.groups }}</div>
+                                                                <div>Specializari</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="panel panel-yellow">
+                                                <a href="index.php?m=halls&case=halls">
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+                                                            <div class="col-xs-3">
+                                                                <i class="fa fa-university fa-5x"></i>
+                                                            </div>
+                                                            <div class="col-xs-9 text-right">
+                                                                <div class="huge">{{ statistics.halls }}</div>
+                                                                <div>Sali de curs</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="panel panel-blue">
+                                                <a href="index.php?m=classes&case=classes">
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+                                                            <div class="col-xs-3">
+                                                                <i class="fa fa-book fa-5x"></i>
+                                                            </div>
+                                                            <div class="col-xs-9 text-right">
+                                                                <div class="huge">{{ statistics.classes }}</div>
+                                                                <div>Materii</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="panel panel-red">
+                                                <a href="index.php?m=teachers&case=teachers">
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+                                                            <div class="col-xs-3">
+                                                                <i class="fa fa-users fa-5x"></i>
+                                                            </div>
+                                                            <div class="col-xs-9 text-right">
+                                                                <div class="huge">{{ statistics.teachers }}</div>
+                                                                <div>Profesori</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="panel panel-mauve">
+                                                <a href="index.php?m=exceptions&case=exceptions">
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+                                                            <div class="col-xs-3">
+                                                                <i class="fa fa-cogs fa-5x"></i>
+                                                            </div>
+                                                            <div class="col-xs-9 text-right">
+                                                                <div class="huge">{{ statistics.teacher_exceptions }}</div>
+                                                                <div>Exceptii profesori</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="panel panel-orange">
+                                                <a href="index.php?m=groupExceptions&case=groupExceptions">
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+                                                            <div class="col-xs-3">
+                                                                <i class="fa fa-cogs fa-5x"></i>
+                                                            </div>
+                                                            <div class="col-xs-9 text-right">
+                                                                <div class="huge">{{ statistics.groups_exceptions }}</div>
+                                                                <div>Exceptii subgrupe</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!---->
+                            <div class="copy">
+                                <p> &copy; Facultatea de Automatica, Calculatoare si Electronica, {{ year }}</p>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            </nav>
+
+            {% include 'includes/footer.html' %}
+
+        </div>
+    </body>
+</html>

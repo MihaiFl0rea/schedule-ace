@@ -1,0 +1,75 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>{{ name }}</title>
+        {% include 'includes/head.html' %}
+    </head>
+
+    <body class="bkg-image">
+        <div class="login low-opacity">
+            <div class="login-bottom" id="loginArea">
+                <h2>Login</h2>
+                <form action="" method="post">
+                    <div class="col-md-6">
+                        <div class="login-mail">
+                            <input type="text" placeholder="Email" name="login_email" id="login_email" required="">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <div class="login-mail">
+                            <input type="password" placeholder="Password" name="login_password" id="login_password" required="">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                        <div class="login-errors"></div>
+                    </div>
+
+                    <div class="col-md-6 login-do">
+                        <label class="hvr-shutter-in-horizontal login-sub">
+                            <input type="submit" value="login" id="adminLogin">
+                        </label>
+                        <!--<p>Don't have an account?</p>
+                        <a href="#" class="hvr-shutter-in-horizontal" id="registerUser">Signup</a>-->
+                    </div>
+
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+
+            <div class="login-bottom hidden" id="registerArea">
+                <h2>Register</h2>
+                <div class="col-md-6">
+                    <div class="login-mail">
+                        <input type="text" placeholder="Email" required="">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div class="login-mail">
+                        <input type="password" placeholder="Password" required="">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    <div class="login-mail">
+                        <input type="password" placeholder="Repeated password" required="">
+                        <i class="fa fa-lock"></i>
+                    </div>
+
+                </div>
+                <div class="col-md-6 login-do">
+                    <label class="hvr-shutter-in-horizontal login-sub">
+                        <input type="submit" value="Submit">
+                    </label>
+                    <p>Already registered?</p>
+                    <a href="#" class="hvr-shutter-in-horizontal" id="loginUser">Login</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <!---->
+
+        {% include 'includes/footer.html' %}
+
+    </body>
+</html>

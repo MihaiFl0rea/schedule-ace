@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Autentificare | ACE</title>
+        {% include 'includes/head_signin.html' %}
+    </head>
+
+    <body class="hide-overflow">
+
+		<!-- Top content -->
+		<div class="top-content">
+
+			<div class="inner-bg">
+				<div class="container login-area">
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3 form-box">
+							<div class="form-top">
+								<div class="form-top-left">
+									<h3>Login</h3>
+									<p>Introduceti numele si parola pentru a va loga:</p>
+								</div>
+								<div class="form-top-right">
+									<i class="fa fa-lock"></i>
+								</div>
+							</div>
+							<div class="form-bottom">
+								<form role="form" action="" method="post" class="login-form">
+									<div class="form-group">
+										<label class="sr-only" for="teacherName">Nume</label>
+										<input type="text" name="teacherName" placeholder="Nume" class="form-username form-control" id="teacherName">
+									</div>
+									<div class="form-group">
+										<label class="sr-only" for="teacherPassword">Parola</label>
+										<input type="password" name="teacherPassword" placeholder="Parola" class="form-password form-control" id="teacherPassword">
+									</div>
+									<p class="login-errors"></p>
+									<button type="submit" id="teacherLogin" class="btn">Log in!</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+        {% include 'includes/footer_signin.html' %}
+
+    </body>
+
+</html>

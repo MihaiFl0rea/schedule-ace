@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ name }}</title>
+    {% include 'includes/head.html' %}
+</head>
+<body>
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-top" role="navigation">
+
+        {% include 'includes/header.html' %}
+
+        <div class=" border-bottom">
+
+            {% include 'includes/menu.html' %}
+
+            <div id="page-wrapper" class="gray-bg dashbard-1">
+                <div class="content-main">
+
+                    <!--banner-->
+                    <div class="banner">
+                        <h2>
+                            <a href="index.php?m=home">Acasa</a>
+                            <i class="fa fa-angle-right"></i>
+
+                            {% if case == 'halls' %}
+                            <span>Sali de curs</span>
+                            {% endif %}
+
+                            {% if case == 'add_hall' %}
+                            <a href="index.php?m=halls&case=halls">Profesori</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>Adauga sala de curs</span>
+                            {% endif %}
+
+                            {% if case == 'edit_hall' %}
+                            <a href="index.php?m=halls&case=halls">Profesori</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>Editeaza sala de curs</span>
+                            {% endif %}
+
+                        </h2>
+                    </div>
+                    <!--//banner-->
+
+                    <!--Page Content-->
+                    <div class="blank">
+
+                        <div class="blank-page">
+
+                            {% if case == 'halls' %}
+                            <p class="p-indent">
+                                <a href="index.php?m=halls&case=add_hall" class="rmv-decoration">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <button type="button" class="btn btn-xs btn-success">Adauga sala de curs</button>
+                                </a>
+                            </p>
+                            <table class="table table-striped table-bordered">
+                                <tr><th>Nume</th><th>Locatie</th><th>Tip sala</th><th>Optiuni</th></tr>
+                                {% for hall in halls.result %}
+                                <tr id="showHall{{ hall.id_sala_curs }}">
+                                    <td>{{ hall.nume }}</td>
+                                    <td>{{ hall.locatie }}</td>
+                                    <td>{{ hall.facilitati }}</td>
+                                    <td>
+                                        <a href="index.php?m=halls&case=edit_hall&id={{ hall.id_sala_curs }}" class="rmv-decoration">
+                                            <button type="button" class="btn btn-sm btn-info">Edit</button>
+                                        </a> | <button type="button" class="btn btn-sm btn-warning delete-hall" id="{{ hall.id_sala_curs}}">Delete</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </table>
+
+                            <nav>
+                                <ul class="pagination">
+                                    {% if halls.pageDetails.hasPreviousPage == true %}
+                                    <li><a href="index.php?m=halls&case=halls&p={{ halls.pageDetails.previousPage }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    {% endif %}
+
+                                    {% if halls.pageDetails.twoBack == true %}
+                                    <li><a href="index.php?m=halls&case=halls&p={{ halls.pageDetails.currentPage - 2 }}">{{ halls.pageDetails.currentPage - 2 }}</a></li>
+                                    <li><a href="index.php?m=halls&case=halls&p={{ halls.pageDetails.currentPage - 1 }}">{{ halls.pageDetails.currentPage - 1 }}</a></li>
+                                    {% elseif hall.pageDetails.oneBack == true %}
+                                    <li><a href="index.php?m=halls&case=halls&p={{ halls.pageDetails.currentPage - 1 }}">{{ halls.pageDetails.currentPage - 1 }}</a></li>
+                                    {% endif %}
+
+                                    <li class="active"><a href="#">{{ halls.pageDetails.currentPage }}</a></li>
+
+                                    {% if halls.pageDetails.twoAhead == true %}
+                                    <li><a href="index.php?m=halls&case=halls&p={{ halls.pageDetails.currentPage + 1 }}">{{ halls.pageDetails.currentPage + 1 }}</a></li>
+                                    <li><a href="index.php?m=halls&case=halls&p={{ halls.pageDetails.currentPage + 2 }}">{{ halls.pageDetails.currentPage + 2 }}</a></li>
+                                    {% elseif halls.pageDetails.oneAhead == true %}
+                                    <li><a href="index.php?m=halls&case=halls&p={{ halls.pageDetails.currentPage + 1 }}">{{ halls.pageDetails.currentPage + 1 }}</a></li>
+                                    {% endif %}
+
+                                    {% if halls.pageDetails.hasNextPage == true %}
+                                    <li><a href="index.php?m=halls&case=halls&p={{ halls.pageDetails.nextPage }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+
+
+                            {% endif %}
+
+                            {% if case == 'add_hall' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="hallName">Nume</label>
+                                        <input type="text" class="form-control" id="hallName" name="hallName" placeholder="Nume sala de curs" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hallLocation">Locatie</label>
+                                        <input type="text" class="form-control" id="hallLocation" name="hallLocation" placeholder="Locatie" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hallFacilities">Tip sala</label>
+                                        <select class="form-control" id="hallFacilities" name="hallFacilities" required>
+                                            <option value="" disabled="disabled" selected="selected">Alege</option>
+                                            <option value="1">Sala normala</option>
+                                            <option value="2">Sala cu videoproiector</option>
+                                            <option value="3">Sala cu calculatoare</option>
+                                            <option value="4">Aula</option>
+                                            <option value="5">Sala dedicata</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" name="addHall" class="btn btn-default">Adauga</button>
+                                </form>
+                            </div>
+
+                            {% endif %}
+
+                            {% if case == 'edit_hall' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="hallName">Nume</label>
+                                        <input type="text" class="form-control" id="hallName" name="hallName" placeholder="Nume sala de curs" value="{{ hallDetails.nume }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hallLocation">Nume</label>
+                                        <input type="text" class="form-control" id="hallLocation" name="hallLocation" placeholder="Locatie" value="{{ hallDetails.locatie }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hallFacilities">Prioritate</label>
+                                        <select class="form-control" id="hallFacilities" name="hallFacilities">
+                                            <option value="1" {% if hallDetails.facilitati == '1' %} selected="selected" {% endif %}>Sala normala</option>
+                                            <option value="2" {% if hallDetails.facilitati == '2' %} selected="selected" {% endif %}>Sala cu videoproiector</option>
+                                            <option value="3" {% if hallDetails.facilitati == '3' %} selected="selected" {% endif %}>Sala cu calculatoare</option>
+                                            <option value="4" {% if hallDetails.facilitati == '4' %} selected="selected" {% endif %}>Aula</option>
+                                            <option value="5" {% if hallDetails.facilitati == '5' %} selected="selected" {% endif %}>Sala dedicata</option>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="hallId" value="{{ hallDetails.id_sala_curs }}" />
+                                    <button type="submit" name="editHall" class="btn btn-default">Editeaza</button>
+                                </form>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                    <!--//Page Content-->
+
+                    <!---->
+                    <div class="copy">
+                        <p> &copy; Facultatea de Automatica, Calculatoare si Electronica, {{ year }}</p>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </nav>
+
+    {% include 'includes/footer.html' %}
+
+</div>
+</body>
+</html>

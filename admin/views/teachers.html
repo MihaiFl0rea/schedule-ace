@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ name }}</title>
+    {% include 'includes/head.html' %}
+</head>
+<body>
+<div id="wrapper">
+
+    <nav class="navbar-default navbar-static-top" role="navigation">
+
+        {% include 'includes/header.html' %}
+
+        <div class=" border-bottom">
+
+            {% include 'includes/menu.html' %}
+
+            <div id="page-wrapper" class="gray-bg dashbard-1">
+                <div class="content-main">
+
+                    <!--banner-->
+                    <div class="banner">
+                        <h2>
+                            <a href="index.php?m=home">Acasa</a>
+                            <i class="fa fa-angle-right"></i>
+
+                            {% if case == 'teachers' %}
+                            <span>Profesori</span>
+                            {% endif %}
+
+                            {% if case == 'add_teacher' %}
+                            <a href="index.php?m=teachers&case=teachers">Profesori</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>Adauga profesor</span>
+                            {% endif %}
+
+                            {% if case == 'edit_teacher' %}
+                            <a href="index.php?m=teachers&case=teachers">Profesori</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>Editeaza profesor</span>
+                            {% endif %}
+
+                            {% if case == 'teacher_classes' %}
+                            <a href="index.php?m=teachers&case=teachers">Profesori</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>{{ teacherName }}</span>
+                            {% endif %}
+
+                            {% if case == 'add_teacher_class' %}
+                            <a href="index.php?m=teachers&case=teachers">Profesori</a>
+                            <i class="fa fa-angle-right"></i>
+                            <a href="index.php?m=teachers&case=teacher_classes&id={{ teacherId }}">{{ teacherName }}</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>Adauga materie</span>
+                            {% endif %}
+
+                            {% if case == 'edit_teacher_class' %}
+                            <a href="index.php?m=teachers&case=teachers">Profesori</a>
+                            <i class="fa fa-angle-right"></i>
+                            <a href="index.php?m=teachers&case=teacher_classes&id={{ teacherId }}">{{ teacherName }}</a>
+                            <i class="fa fa-angle-right"></i>
+                            <span>Editeaza materie</span>
+                            {% endif %}
+
+                        </h2>
+                    </div>
+                    <!--//banner-->
+
+                    <!--Page Content-->
+                    <div class="blank">
+
+                        <div class="blank-page">
+
+                            {% if case == 'teachers' %}
+                            <p class="p-indent">
+                                <a href="index.php?m=teachers&case=add_teacher" class="rmv-decoration">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <button type="button" class="btn btn-xs btn-info">Adauga profesor</button>
+                                </a>
+                            </p>
+                            <table class="table table-striped table-bordered">
+                                <tr><th>Nume</th><th>Materii predate</th><th>Prioritate</th><th>Optiuni</th></tr>
+                                {% for teacher in teachers.result %}
+                                <tr id="showTeacher{{ teacher.id_profesor }}">
+                                    <td>{{ teacher.nume }}</td>
+                                    <td>
+                                        <a href="index.php?m=teachers&case=teacher_classes&id={{ teacher.id_profesor }}">
+                                            <i class="fa fa-search" title="Vezi materii"></i>
+                                        </a>
+                                    </td>
+                                    <td>{{ teacher.prioritate }}</td>
+                                    <td>
+                                        <a href="index.php?m=teachers&case=edit_teacher&id={{ teacher.id_profesor }}" class="rmv-decoration">
+                                            <button type="button" class="btn btn-sm btn-success">Edit</button>
+                                        </a> | <button type="button" class="btn btn-sm btn-primary delete-teacher" id="{{ teacher.id_profesor}}">Delete</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </table>
+
+                            <nav>
+                                <ul class="pagination">
+                                    {% if teachers.pageDetails.hasPreviousPage == true %}
+                                    <li><a href="index.php?m=teachers&case=teachers&p={{ teachers.pageDetails.previousPage }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    {% endif %}
+
+                                    {% if teachers.pageDetails.twoBack == true %}
+                                    <li><a href="index.php?m=teachers&case=teachers&p={{ teachers.pageDetails.currentPage - 2 }}">{{ teachers.pageDetails.currentPage - 2 }}</a></li>
+                                    <li><a href="index.php?m=teachers&case=teachers&p={{ teachers.pageDetails.currentPage - 1 }}">{{ teachers.pageDetails.currentPage - 1 }}</a></li>
+                                    {% elseif teachers.pageDetails.oneBack == true %}
+                                    <li><a href="index.php?m=teachers&case=teachers&p={{ teachers.pageDetails.currentPage - 1 }}">{{ teachers.pageDetails.currentPage - 1 }}</a></li>
+                                    {% endif %}
+
+                                    <li class="active"><a href="#">{{ teachers.pageDetails.currentPage }}</a></li>
+
+                                    {% if teachers.pageDetails.twoAhead == true %}
+                                    <li><a href="index.php?m=teachers&case=teachers&p={{ teachers.pageDetails.currentPage + 1 }}">{{ teachers.pageDetails.currentPage + 1 }}</a></li>
+                                    <li><a href="index.php?m=teachers&case=teachers&p={{ teachers.pageDetails.currentPage + 2 }}">{{ teachers.pageDetails.currentPage + 2 }}</a></li>
+                                    {% elseif teachers.pageDetails.oneAhead == true %}
+                                    <li><a href="index.php?m=teachers&case=teachers&p={{ teachers.pageDetails.currentPage + 1 }}">{{ teachers.pageDetails.currentPage + 1 }}</a></li>
+                                    {% endif %}
+
+                                    {% if teachers.pageDetails.hasNextPage == true %}
+                                    <li><a href="index.php?m=teachers&case=teachers&p={{ teachers.pageDetails.nextPage }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+
+                            {% endif %}
+
+                            {% if case == 'add_teacher' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="teacherName">Nume</label>
+                                        <input type="text" class="form-control" id="teacherName" name="teacherName" placeholder="Nume profesor" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="teacherPassword">Parola (pentru logare)</label>
+                                        <input type="text" class="form-control" id="teacherPassword" name="teacherPassword" placeholder="Parola" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="teacherPriority">Prioritate</label>
+                                        <select class="form-control" id="teacherPriority" name="teacherPriority" required>
+                                            <option value="" disabled="disabled" selected="selected">Alege</option>
+                                            <option value="1">Ridicata</option>
+                                            <option value="2">Medie</option>
+                                            <option value="3">Scazuta</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" name="addTeacher" class="btn btn-default">Adauga</button>
+                                </form>
+                            </div>
+
+                            {% endif %}
+
+                            {% if case == 'edit_teacher' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="teacherName">Nume</label>
+                                        <input type="text" class="form-control" id="teacherName" name="teacherName" placeholder="Nume profesor" value="{{ teacherDetails.nume }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="teacherPassword">Parola (pentru logare)</label>
+                                        <input type="text" class="form-control" id="teacherPassword" name="teacherPassword" placeholder="Parola noua">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="teacherPriority">Prioritate</label>
+                                        <select class="form-control" id="teacherPriority" name="teacherPriority" required>
+                                            <option value="1" {% if teacherDetails.prioritate == '1' %} selected="selected" {% endif %}>Ridicata</option>
+                                            <option value="2" {% if teacherDetails.prioritate == '2' %} selected="selected" {% endif %}>Medie</option>
+                                            <option value="3" {% if teacherDetails.prioritate == '3' %} selected="selected" {% endif %}>Scazuta</option>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="teacherId" value="{{ teacherDetails.id_profesor }}" />
+                                    <button type="submit" name="editTeacher" class="btn btn-default">Editeaza</button>
+                                </form>
+                            </div>
+
+                            {% endif %}
+
+                            {% if case == 'teacher_classes' %}
+
+                            <p class="p-indent">
+                                <a href="index.php?m=teachers&case=add_teacher_class&id={{ teacherId }}" class="rmv-decoration">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    <button type="button" class="btn btn-xs btn-warning">Adauga materie</button>
+                                </a>
+                            </p>
+                            <table class="table table-striped table-bordered">
+                                <tr><th>Materie</th><th>Subgrupe</th><th>Optiuni</th></tr>
+                                {% for teacher in teacherClasses.result %}
+                                <tr id="showTeacherClass{{ teacher.id_profesor_materie }}">
+                                    <td>{{ teacher.nume }} - {{ teacher.tip_materie }}</td>
+                                    <td>{{ teacher.subgroups }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-primary delete-teacher-class" id="{{ teacher.id_profesor_materie}}">Delete</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </table>
+
+                            <nav>
+                                <ul class="pagination">
+                                    {% if teacherClasses.pageDetails.hasPreviousPage == true %}
+                                    <li><a href="index.php?m=teachers&case=teacher_classes&p={{ teacherClasses.pageDetails.previousPage }}&id={{ teacherId }}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                                    {% endif %}
+
+                                    {% if teacherClasses.pageDetails.twoBack == true %}
+                                    <li><a href="index.php?m=teachers&case=teacher_classes&p={{ teacherClasses.pageDetails.currentPage - 2 }}&id={{ teacherId }}">{{ teacherClasses.pageDetails.currentPage - 2 }}</a></li>
+                                    <li><a href="index.php?m=teachers&case=teacher_classes&p={{ teacherClasses.pageDetails.currentPage - 1 }}&id={{ teacherId }}">{{ teacherClasses.pageDetails.currentPage - 1 }}</a></li>
+                                    {% elseif teacherClasses.pageDetails.oneBack == true %}
+                                    <li><a href="index.php?m=teachers&case=teacher_classes&p={{ teacherClasses.pageDetails.currentPage - 1 }}&id={{ teacherId }}">{{ teacherClasses.pageDetails.currentPage - 1 }}</a></li>
+                                    {% endif %}
+
+                                    <li class="active"><a href="#">{{ teacherClasses.pageDetails.currentPage }}</a></li>
+
+                                    {% if teacherClasses.pageDetails.twoAhead == true %}
+                                    <li><a href="index.php?m=teachers&case=teacher_classes&p={{ teacherClasses.pageDetails.currentPage + 1 }}&id={{ teacherId }}">{{ teacherClasses.pageDetails.currentPage + 1 }}</a></li>
+                                    <li><a href="index.php?m=teachers&case=teacher_classes&p={{ teacherClasses.pageDetails.currentPage + 2 }}&id={{ teacherId }}">{{ teacherClasses.pageDetails.currentPage + 2 }}</a></li>
+                                    {% elseif teacherClasses.pageDetails.oneAhead == true %}
+                                    <li><a href="index.php?m=teachers&case=teacher_classes&p={{ teacherClasses.pageDetails.currentPage + 1 }}&id={{ teacherId }}">{{ teacherClasses.pageDetails.currentPage + 1 }}</a></li>
+                                    {% endif %}
+
+                                    {% if teacherClasses.pageDetails.hasNextPage == true %}
+                                    <li><a href="index.php?m=teachers&case=teacher_classes&p={{ teacherClasses.pageDetails.nextPage }}&id={{ teacherId }}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+
+                            {% endif %}
+
+                            {% if case == 'add_teacher_class' %}
+
+                            <div class="grid-form1">
+                                <form method="post" action="">
+                                    <div class="form-group">
+                                        <label for="teacherClass">Materie</label>
+                                        <select class="form-control" id="teacherClass" name="teacherClasses[]" multiple="multiple" required>
+                                            {% for class in classGroups %}
+                                            <option value="{{ class.id_materie_specializare }}">{{ class.nume }} ({{ class.tip_materie }}) - {{ class.subgroups }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <input type="hidden" name="teacherId" value="{{ teacherId }}" />
+                                    </div>
+                                    <button type="submit" name="addTeacherClass" class="btn btn-default">Adauga</button>
+                                </form>
+                            </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                    <!--//Page Content-->
+
+                    <!---->
+                    <div class="copy">
+                        <p> &copy; Facultatea de Automatica, Calculatoare si Electronica, {{ year }}</p>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+    </nav>
+
+    {% include 'includes/footer.html' %}
+
+</div>
+</body>
+</html>

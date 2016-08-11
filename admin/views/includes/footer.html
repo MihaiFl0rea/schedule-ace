@@ -1,0 +1,47 @@
+<script src="{{ url }}js/jquery.min.js"></script>
+
+<script src="{{ url }}js/bootstrap.min.js"></script>
+
+<script type="application/x-javascript"> addEventListener("load", function () {
+    setTimeout(hideURLbar, 0);
+}, false);
+function hideURLbar() {
+    window.scrollTo(0, 1);
+} </script>
+
+<script>
+    $(function () {
+        $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+
+        if (!screenfull.enabled) {
+            return false;
+        }
+
+
+        $('#toggle').click(function () {
+            screenfull.toggle($('#container')[0]);
+        });
+
+
+    });
+</script>
+<!--scrolling js-->
+<script src="{{ url }}js/jquery.nicescroll.js"></script>
+<!--//scrolling js-->
+
+<script src="{{ url }}js/jquery.timepicker.js"></script>
+
+<!-- select2 plugin -->
+<script src="{{ url }}js/select2.js"></script>
+
+<!-- Mainly scripts -->
+<script src="{{ url }}js/jquery.metisMenu.js"></script>
+<script src="{{ url }}js/jquery.slimscroll.min.js"></script>
+
+<script src="{{ url }}js/custom.js"></script>
+<script src="{{ url }}js/screenfull.js"></script>
+
+<script src="{{ url }}js/scripts.js"></script>
+
+<!-- Custom scripts -->
+<script src="{{ url }}js/custom-scripts.js"></script>
