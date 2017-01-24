@@ -8,9 +8,9 @@
 
     class Model_Classes {
 
-        use commonTasks;
+        use commonTasks, HallGetters, ClassGetters, ClassDetailsGetters;
 
-        function add_class($className,$classDescription,$classCredits,$classEvaluation,$classType,$classDuration,$classHall,$classFrequency,$dedicatedHall,$classYear,$classSemester) {
+        function add_class($classProperties, $classDedicatedHall) {
             global $db,$handler;
 
             $sql = "INSERT INTO `materie` (`nume`,`an`,`semestru`,`descriere`,`tip_evaluare`,`nr_credite`,`tip_materie`,`durata`,`tip_sala_curs`,`id_sala_dedicata`,`frecventa`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
@@ -23,17 +23,17 @@
 
                     $stmt = $db->prepare($sql);
 
-                    $stmt->bindParam(1, $className);
-                    $stmt->bindParam(2, $classYear);
-                    $stmt->bindParam(3, $classSemester);
-                    $stmt->bindParam(4, $classDescription);
-                    $stmt->bindParam(5, $classEvaluation);
-                    $stmt->bindParam(6, $classCredits);
-                    $stmt->bindParam(7, $classType);
-                    $stmt->bindParam(8, $classDuration);
-                    $stmt->bindParam(9, $classHall);
-                    $stmt->bindParam(10, $dedicatedHall);
-                    $stmt->bindParam(11, $classFrequency);
+                    $stmt->bindParam(1, $classProperties['className']);
+                    $stmt->bindParam(2, $classProperties['classYear']);
+                    $stmt->bindParam(3, $classProperties['classSemester']);
+                    $stmt->bindParam(4, $classProperties['classDescription']);
+                    $stmt->bindParam(5, $classProperties['classEvaluation']);
+                    $stmt->bindParam(6, $classProperties['classCredits']);
+                    $stmt->bindParam(7, $classProperties['classType']);
+                    $stmt->bindParam(8, $classProperties['classDuration']);
+                    $stmt->bindParam(9, $classProperties['classHall']);
+                    $stmt->bindParam(10, $classDedicatedHall);
+                    $stmt->bindParam(11, $classProperties['classFrequency']);
 
                     if ($stmt->execute()) {
                         return true;
@@ -54,7 +54,7 @@
 
                 $stmt = $db->prepare($sql);
 
-                $stmt->bind_param("siisiiiiiii", $className, $classYear, $classSemester, $classDescription, $classEvaluation, $classCredits, $classType, $classDuration, $classHall, $dedicatedHall, $classFrequency);
+                $stmt->bind_param("siisiiiiiii", $classProperties['className'], $classProperties['classYear'], $classProperties['classSemester'], $classProperties['classDescription'], $classProperties['classEvaluation'], $classProperties['classCredits'], $classProperties['classType'], $classProperties['classDuration'], $classProperties['classHall'], $classDedicatedHall, $classProperties['classFrequency']);
 
                 if ($stmt->execute()) {
                     return true;
@@ -82,50 +82,15 @@
 
 
             foreach($result as $key => $value) {
-                if($value['tip_evaluare'] == '1') {
-                    $result[$key]['tip_evaluare'] = 'Examen';
-                } elseif($value['tip_evaluare'] == '2') {
-                    $result[$key]['tip_evaluare'] = 'Colocviu';
-                } elseif($value['tip_evaluare'] == '3') {
-                    $result[$key]['tip_evaluare'] = 'Proiect';
-                }
+                $result[$key]['tip_evaluare'] = $this->getEvaluationType($result[$key]['tip_evaluare']);
 
-                if($value['tip_materie'] == '1') {
-                    $result[$key]['tip_materie'] = 'Curs';
-                } elseif($value['tip_materie'] == '2') {
-                    $result[$key]['tip_materie'] = 'Laborator';
-                } elseif($value['tip_materie'] == '3') {
-                    $result[$key]['tip_materie'] = 'Seminar';
-                } elseif($value['tip_materie'] == '4') {
-                    $result[$key]['tip_materie'] = 'Proiect';
-                }
+                $result[$key]['tip_materie'] = $this->getClassType($result[$key]['tip_materie']);
 
-                if($value['durata'] == '1') {
-                    $result[$key]['durata'] = '1 ora';
-                } elseif($value['durata'] == '2') {
-                    $result[$key]['durata'] = '2 ore';
-                } elseif($value['durata'] == '3') {
-                    $result[$key]['durata'] = '3 ore';
-                }
+                $result[$key]['durata'] = $this->getDuration($result[$key]['durata']);
 
-                if($value['tip_sala_curs'] == '1') {
-                    $result[$key]['tip_sala_curs'] = 'Sala normala';
-                } elseif($value['tip_sala_curs'] == '2') {
-                    $result[$key]['tip_sala_curs'] = 'Sala cu videoproiector';
-                } elseif($value['tip_sala_curs'] == '3') {
-                    $result[$key]['tip_sala_curs'] = 'Sala cu calculatoare';
-                } elseif($value['tip_sala_curs'] == '4') {
-                    $result[$key]['tip_sala_curs'] = 'Aula';
-                } elseif($value['tip_sala_curs'] == '5') {
-                    //$result[$key]['tip_sala_curs'] = 'Sala dedicata';
-                    $result[$key]['tip_sala_curs'] = $this->get_dedicated_hall_name($value['id_sala_dedicata']);
-                }
+                $result[$key]['tip_sala_curs'] = $this->getHallType($result[$key]['tip_sala_curs'],$value['id_sala_dedicata']);
 
-                if($value['frecventa'] == '1') {
-                    $result[$key]['frecventa'] = 'Saptamanal';
-                } elseif($value['frecventa'] == '2') {
-                    $result[$key]['frecventa'] = 'La 2 saptamani';
-                }
+                $result[$key]['frecventa'] = $this->getFrequency($result[$key]['frecventa']);
             }
 
             // get pagination details
@@ -145,30 +110,6 @@
 
         }
 
-        function get_dedicated_hall_name($id) {
-            global $db;
-
-            $sql = "SELECT `nume` FROM `sala_curs` WHERE `id_sala_curs` = '" . $id . "'";
-
-            $result = $db->execute_query($sql);
-
-            $result = $db->fetch_row($result);
-
-            return $result['nume'];
-        }
-
-        function get_dedicated_halls() {
-            global $db;
-
-            $sql = "SELECT * FROM `sala_curs` WHERE `facilitati` = '5'";
-
-            $result = $db->execute_query($sql);
-
-            $result = $db->fetch_array($result);
-
-            return $result;
-        }
-
         function get_class($id) {
             global $db;
 
@@ -181,10 +122,10 @@
             return $result[0];
         }
 
-        function edit_class($classId,$className,$classDescription,$classCredits,$classEvaluation,$classType,$classDuration,$classHall,$classFrequency,$dedicatedHall,$classYear,$classSemester) {
+        function edit_class($classProperties,$dedicatedHall) {
             global $db;
 
-            $sql = "UPDATE `materie` SET `nume` = '" . $className . "', `an` = '" . $classYear . "', `semestru` = '" . $classSemester . "', `descriere` = '" . $classDescription . "', `tip_evaluare` = '" . $classEvaluation . "', `nr_credite` = '" . $classCredits . "', `tip_materie` = '" . $classType . "', `durata` = '" . $classDuration . "', `tip_sala_curs` = '" . $classHall . "', `id_sala_dedicata` = '" . $dedicatedHall . "', `frecventa` = '" . $classFrequency . "' WHERE `id_materie` = '" . $classId . "'";
+            $sql = "UPDATE `materie` SET `nume` = '" . $classProperties['className'] . "', `an` = '" . $classProperties['classYear'] . "', `semestru` = '" . $classProperties['classSemester'] . "', `descriere` = '" . $classProperties['classDescription'] . "', `tip_evaluare` = '" . $classProperties['classEvaluation'] . "', `nr_credite` = '" . $classProperties['classCredits'] . "', `tip_materie` = '" . $classProperties['classType'] . "', `durata` = '" . $classProperties['classDuration'] . "', `tip_sala_curs` = '" . $classProperties['classHall'] . "', `id_sala_dedicata` = '" . $dedicatedHall . "', `frecventa` = '" . $classProperties['classFrequency'] . "' WHERE `id_materie` = '" . $classProperties['classId'] . "'";
 
             if($db->execute_query($sql)) {
                 return true;
